@@ -6,9 +6,9 @@ the version information.
    1) If the release is not a development release (dev=False), then version
       information is read from version.py, a file containing statically
       defined version information.  This file should exist on every
-      downloadable release of NetworkX since setup.py creates it during
+      downloadable release of Holes since setup.py creates it during
       packaging/installation.  However, version.py might not exist if one
-      is running NetworkX from the mercurial repository.  In the event that
+      is running Holes from the mercurial repository.  In the event that
       version.py does not exist, then no vcs information will be available.
 
    2) If the release is a development release, then version information
@@ -18,14 +18,6 @@ the version information.
 
 Clarification:
       version.py is created only by setup.py
-
-When setup.py creates version.py, it does so before packaging/installation.
-So the created file is included in the source distribution.  When a user
-downloads a tar.gz file and extracts the files, the files will not be in a
-live version control repository.  So when the user runs setup.py to install
-NetworkX, we must make sure write_versionfile() does not overwrite the
-revision information contained in the version.py that was included in the
-tar.gz file. This is why write_versionfile() includes an early escape.
 
 """
 
