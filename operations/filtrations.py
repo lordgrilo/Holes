@@ -1,8 +1,13 @@
 ##################################################################################
 # Filtrations 					 												 #	
 ##################################################################################
+import numpy as np;
+import networkx as nx;
+import itertools
 
-def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None):
+def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
+    if verbose==True:
+        print index, thr;
 
     if IR_weight_cutoff==None:
     	IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight'));
@@ -22,11 +27,11 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None):
     #the max index will be used for the persistent homology computation 
     max_index=0; 
 
-    for index,IR_weight_cutoff in enumerate(edge_weights):
-        if IR_weight_cutoff>IR_weight_cutoff:
+    for index,thr in enumerate(edge_weights):
+        if thr>IR_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
-                if edge[2]['weight']>=IR_weight_cutoff:
+                if edge[2]['weight']>=thr:
                 	G_supplementary.add_edge(edge[0],edge[1]);
             
             #clique detection in partial graph
@@ -40,12 +45,62 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None):
                         if str(list(subclique)) not in Clique_dictionary:
                             Clique_dictionary[str(list(subclique))]=[];
                             Clique_dictionary[str(list(subclique))].append(str(index));
-                            Clique_dictionary[str(list(subclique))].append(str(IR_weight_cutoff))
+                            Clique_dictionary[str(list(subclique))].append(str(thr))
                             max_index=index;
 
     print('Max filtration value: '+str(max_index));              
     print('Clique dictionary created.');
     return Clique_dictionary;
+
+
+def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
+    if UV_weight_cutoff==None:
+        UV_weight_cutoff=np.max(nx.get_edge_attributes(G,'weight'));
+
+    print('Preliminary scan of edge weights to define filtration steps...');
+    edge_weights=nx.get_edge_attributes(G,'weight').values();
+    edge_weights=list(set(edge_weights));
+    edge_weights=sorted(edge_weights);
+    max_index=len(edge_weights);
+        
+    # Define the clique dictionary
+    Clique_dictionary={};
+    print('Constructing filtration...');
+    #Beginning of filtration construction
+    G_supplementary=nx.Graph();
+
+    #the max index will be used for the persistent homology computation 
+    max_index=0; 
+
+    for index,thr in enumerate(edge_weights):
+        if verbose==True:
+            print index, thr;
+        if thr<UV_weight_cutoff:
+            #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
+            for edge in G.edges(data=True):
+                if edge[2]['weight']<=thr:
+                    G_supplementary.add_edge(edge[0],edge[1]);
+            
+            #clique detection in partial graph
+            cliques=nx.find_cliques_recursive(G_supplementary);
+            # adding cliques to the filtration
+            for clique in cliques: #loop on new clique
+                clique.sort();
+
+                for k in range(1,len(clique)+1): #loop on clique dimension to find missed faces of simplex
+                    for subclique in itertools.combinations(clique,k):
+                        if str(list(subclique)) not in Clique_dictionary:
+                            Clique_dictionary[str(list(subclique))]=[];
+                            Clique_dictionary[str(list(subclique))].append(str(index));
+                            Clique_dictionary[str(list(subclique))].append(str(thr))
+                            max_index=index;
+
+    print('Max filtration value: '+str(max_index));              
+    print('Clique dictionary created.');
+    return Clique_dictionary;
+
+
+
 
 
 

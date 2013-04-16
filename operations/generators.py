@@ -1,3 +1,7 @@
+import networkx as nx 
+import numpy as np
+import Holes as ho
+
 def weight_label_generators(gen_dict,G):
 	weighted_generators={};
 
@@ -17,7 +21,7 @@ def weight_label_generators(gen_dict,G):
 			comp=rank_cycle.composition;
 			dim=rank_cycle.dim;
 			#weighted_generators[key].append(ay.Cycle(dim,comp,max_weight-edge_weights[b],max_weight-edge_weights[d]));
-			weighted_generators[key].append(ay.Cycle(dim,comp,edge_weights[b],edge_weights[d]));
+			weighted_generators[key].append(ho.Cycle(dim,comp,edge_weights[b],edge_weights[d]));
 	return weighted_generators;
 
 

@@ -1,10 +1,3 @@
-
-"""
-	Representation of cycles containing information about generators and persistence intervals.
-"""
-__all__=['Cycle']
-import numpy as np
-
 class Cycle(object):
 	""" 
 	Representation of cycles containing information about generators and persistence intervals.
