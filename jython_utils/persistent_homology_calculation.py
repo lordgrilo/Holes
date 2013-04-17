@@ -62,7 +62,7 @@ for key in Clique_dictionary:
 	else:	
 		complex.addElement(key_buona, int(Clique_dictionary[original_key][0]));
 		if int(Clique_dictionary[original_key][0])>max_index:
-			max_index=Clique_dictionary[original_key][0];
+			max_index=int(Clique_dictionary[original_key][0]);
 
 print "Parsing over. Closing now."
 complex.finalizeStream();

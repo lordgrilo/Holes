@@ -28,7 +28,7 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False
     max_index=0; 
 
     for index,thr in enumerate(edge_weights):
-        if thr>IR_weight_cutoff:
+        if thr>=IR_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
                 if edge[2]['weight']>=thr:
@@ -75,12 +75,11 @@ def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
     for index,thr in enumerate(edge_weights):
         if verbose==True:
             print index, thr;
-        if thr<UV_weight_cutoff:
+        if thr<=UV_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
                 if edge[2]['weight']<=thr:
                     G_supplementary.add_edge(edge[0],edge[1]);
-            
             #clique detection in partial graph
             cliques=nx.find_cliques_recursive(G_supplementary);
             # adding cliques to the filtration
