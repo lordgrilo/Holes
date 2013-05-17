@@ -3,7 +3,10 @@
 # Graph randomization			 												 #	
 ##################################################################################
 
-def weight_reshuffling(G):
+import networkx as nx 
+import random as rn 
+import time 
+def weight_reshuffling(G,weight_tag='weight'):
 	'''
 	Input: 
 		G: an undirected weighted network
@@ -19,12 +22,12 @@ def weight_reshuffling(G):
 
 	#preliminary scan of edge weights to define filtration steps
 	print('Preliminary scan of edge weights to define filtration steps...');
-	edge_weights=list(set(nx.get_edge_attributes(G).values()));
+	edge_weights=list(set(nx.get_edge_attributes(G,weight_tag).values()));
 	edge_weights=sorted(edge_weights, reverse=True);    
 	print('Preliminary scan and sorting completed.');
 	E=nx.Graph();
-	E=G.add_nodes_from(G.nodes(data=True));
-	E=G.add_edges_from(G.edges());
+	E.add_nodes_from(G.nodes(data=True));
+	E.add_edges_from(G.edges());
 	E.remove_edges_from(E.selfloop_edges());
 	weight_sequence_temp=weight_sequence;
 	rn.shuffle(weight_sequence_temp);
@@ -47,6 +50,7 @@ def randomized_graph(G,num_randomization=None):
 		E: an undirected weighted graph with the same degree and weight
 		   sequence of G.
 	'''
+
 	if num_randomization==None:
 		num_randomization=G.number_of_edges();
 

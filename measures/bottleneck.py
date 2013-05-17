@@ -1,6 +1,7 @@
 ##################################################################################
 # Bottleneck distance functions 												 #	
 ##################################################################################
+import numpy as np
 
 def normalize_dict(G,M=None):
     if M==None:
@@ -37,6 +38,8 @@ def L_infinity_gen_distance(cycle1,cycle2, verbose=False):
 
 
 def bottleneck_distance(gener1,gener2,dim, showfig=True):
+    #in truth this is the Hausdorff distance (need to correct)
+    import numpy as np
     gg1=gener1[dim];
     gg2=gener2[dim];
     if len(gg1)==0 and len(gg2)==0:
@@ -57,3 +60,4 @@ def bottleneck_distance(gener1,gener2,dim, showfig=True):
     d_B=np.max(np.max(np.min(B,0)), np.max(np.min(B,1)));
     print d_B;
     return d_B;
+

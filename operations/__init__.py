@@ -12,6 +12,8 @@ from Holes.operations.filtrations import *
 import Holes.operations.generators
 from Holes.operations.generators import * 
 
+import Holes.operations.phomology
+from Holes.operations.phomology import * 
 
 
 
