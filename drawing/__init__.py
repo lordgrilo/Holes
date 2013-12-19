@@ -56,7 +56,7 @@ def cycle_start_distribution(Gen_dict,W=None,tag=' ',nbins=100):
 		plt.savefig(tag+'_cycle_start_distribution.png');
 	return n, bins
 
-def barcode_creator(cycles,W=None,size=10):
+def barcode_creator(cycles,W=None,sizea=10,sizeb=10,verbose=False):
 	import matplotlib.pyplot as plt;
 	import numpy as np
 	if W==None:
@@ -64,7 +64,9 @@ def barcode_creator(cycles,W=None,size=10):
 		for cycle in cycles:
 			if float(cycle.end)>float(W):
 				W=float(cycle.end);
-	fig=plt.figure(figsize=(size,size));
+	if verbose==True:
+		print 'Maximum W=',W;
+	fig=plt.figure(figsize=(sizea,sizeb));
 	L=len(cycles);
 	factor=np.sqrt(L);
 	for i,cycle in enumerate(cycles):
@@ -72,23 +74,31 @@ def barcode_creator(cycles,W=None,size=10):
 
 
 
-def complete_persistence_diagram(gen_list,W=None,factor_l=20,factor_p=1,show=False):
+def complete_persistence_diagram(gen_list,W=None,normalized=True,factor_l=20,factor_p=1,show=False):
 	import matplotlib.pyplot as plt;
 	b=[];
 	d=[];
 	l=[];
 	p=[];
-	if W==None:
- 		W=0;
- 		for cycle in gen_list:
- 			if float(cycle.end)>W:
- 				W=float(cycle.end);
+	if normalized==True:
+		if W==None:
+	 		W=0;
+	 		for cycle in gen_list:
+	 			if float(cycle.end)>W:
+	 				W=float(cycle.end);
 
-	for cycle in gen_list:
-		b.append(float(cycle.start)/float(W));
-		d.append(float(cycle.end)/float(W));
-		l.append(float(len(cycle.composition))*factor_l);
-		p.append(float(cycle.persistence_interval())/float(W)*factor_p);	
+		for cycle in gen_list:
+			b.append(float(cycle.start)/float(W));
+			d.append(float(cycle.end)/float(W));
+			l.append(float(len(cycle.composition))*factor_l);
+			p.append(float(cycle.persistence_interval())/float(W)*factor_p);	
+	else:
+		for cycle in gen_list:
+			b.append(float(cycle.start));
+			d.append(float(cycle.end));
+			l.append(float(len(cycle.composition))*factor_l);
+			p.append(float(cycle.persistence_interval())*factor_p);	
+
 	plt.scatter(b,d,l,p);
 	plt.xlim(0,1.1*max(max(b),max(d)));
 	plt.ylim(0,1.1*max(max(b),max(d)));

@@ -6,9 +6,7 @@ import networkx as nx;
 import itertools
 
 def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
-    if verbose==True:
-        print index, thr;
-
+    
     if IR_weight_cutoff==None:
     	IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight'));
 
@@ -158,7 +156,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
     G.add_edges_from(G0.edges());
     
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(nx.get_edge_attributes(G0,'weight'));
+        UV_weight_cutoff=np.max(nx.get_edge_attributes(G0,'weight').values());
         print 'Uv cut', UV_weight_cutoff
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G0,'weight').values();
@@ -242,7 +240,7 @@ def distance_graph(G,metric='shortest_path_inverse'):
         G_suppl.add_nodes_from(G.nodes(data=True));
         for e in G.edges(data=True):
             if 'weight' in e[2]:
-                G_suppl.add_edge(e[0],e[1],weight=float(1/e[2]['weight']));
+                G_suppl.add_edge(e[0],e[1],weight=float(e[2]['weight']));
             else:
                 G_suppl.add_edge(e[0],e[1],weight=float(1));
         distance_dict=nx.shortest_path_length(G_suppl,weight='weight');
