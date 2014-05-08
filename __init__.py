@@ -26,12 +26,11 @@ Using
 
 from __future__ import absolute_import
 
-import sys
+import sys, os
 if sys.version_info[:2] < (2, 6):
     m = "Python version 2.6 or later is required for NetworkX (%d.%d detected)."
     raise ImportError(m % sys.version_info[:2])
 del sys
-
 
 import pickle
 import numpy as np

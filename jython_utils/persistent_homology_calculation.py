@@ -6,8 +6,7 @@
 
 import pickle, sys, os 
 from collections import defaultdict
-sys.path.append('/Users/lordgrilo/Dropbox/')
-import Holes
+import Holes 
 
 def list2simplexes(list,dim):
 	num=dim+1;
@@ -37,11 +36,13 @@ Clique_dictionary=pickle.load(file);
 
 ## NOTE: you need to put here the path to the javaPlex distribution on your system
 libs = [                                                                                                 
-	 javaplex_path+'/lib/javaplex.jar'
- 	]                                                                      
+	 javaplex_path+'/javaplex.jar'
+ 	]                    
+print libs                                                  
 
 for s in libs:                                                                                           
 	sys.path.append(s)                                                                                      
+print sys.path
 
 import edu.stanford.math.plex4                                                                              
 import edu.stanford.math.plex4.api

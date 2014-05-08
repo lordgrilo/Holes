@@ -1,4 +1,4 @@
-
+import networkx as nx
 
 def Homological_persistence_backbone(G, gen_dict,k,W=None):
 	'''

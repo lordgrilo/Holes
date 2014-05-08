@@ -8,7 +8,7 @@ import itertools
 def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-    	IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight'));
+    	IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight').values());
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight').values();
@@ -53,7 +53,7 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False
 
 def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(nx.get_edge_attributes(G,'weight'));
+        UV_weight_cutoff=np.max(nx.get_edge_attributes(G,'weight').values());
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight').values();
@@ -257,7 +257,65 @@ def distance_graph(G,metric='shortest_path_inverse'):
 
 
 
+##################################################################################
+# Network manipulations                                                          #  
+##################################################################################
 
 
+def duplicated_graph(D, maxweight = 0, weight='weight'):
+    import networkx as nx
+    G=D.copy()
+    W=nx.DiGraph()
+    W=G
+    if type(G) == nx.MultiGraph or type(G) == nx.MultiDiGraph:
+        raise Exception("stochastic_graph not implemented for multigraphs")
+    if  maxweight==0:
+        for (u,v,d) in G.edges(data=True):
+            if d > maxweight:
+                maxweight = d
+    L = len(G.nodes())
+    if min(G.nodes())==0:
+        N=L+1
+    else:
+        N=L
+    for u in G.nodes():
+            W.add_edge(u,u+N,maxweight)
+ 
+    
+    for (u,v,p) in G.edges(data=True):
+        u_v = 0
+        
+        if v>u:
+                W.add_edge(u,v,p)
+        elif v<u:
+            W.add_edge(u+N,v+N,p)
+            e = (u,v)
+            G.remove_edge(*e)
+            
+        elif v==u:
+            if 10+u not in G.nodes():
+                u_v=10+u
+            elif 100+u not in G.nodes():
+                u_v=100+u
+            elif 1000+u not in G.nodes():
+                u_v=1000+u
+            elif 10000+u not in G.nodes():
+                c=10000
+                u_v=10000+u
+            else:
+                print "Problemi col nome dei nodi per eliminare i self loop (specification construction)"
+            G.add_edge(u,u_v,p)
+            #print (u,u_v,p)
+            v2=v+N
+            G.add_edge(u_v,v2,maxweight)
+            #u__v=u_v+N
+            #G.add_edge(u_v,u__v,weight=maxweight)
+            #G.add_edge(u__v,v+N,weight=maxweight)#nota u_v maggiore di v
+
+            e = (u,v)
+            G.remove_edge(*e)
+#        print "G:  ", G.edges()
+                  #for (u,v,d) in G.edges(data=True):
+    return W
 
 
