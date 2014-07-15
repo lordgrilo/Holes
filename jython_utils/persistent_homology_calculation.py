@@ -57,7 +57,7 @@ for key in Clique_dictionary:
 	key=key.split(', ');
 	key_buona=[];
 	for n in range(len(key)):
-		key_buona.append(int(float(key[n])));
+		key_buona.append(int(float(eval(key[n]))));
 	if len(key_buona)==1:
 		complex.addVertex(key_buona[0],0);
 	else:	
