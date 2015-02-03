@@ -1,6 +1,6 @@
 import networkx as nx
 
-def Homological_persistence_backbone(G, gen_dict,k,W=None):
+def Homological_persistence_backbone(G, gen_dict,k,W=0):
 	'''
 	Generates the homological backbone of dimension k 
 	from the cycles in the given generator dict. 
@@ -17,7 +17,7 @@ def Homological_persistence_backbone(G, gen_dict,k,W=None):
 	import itertools;
 	E=nx.Graph();
 	E.add_nodes_from(G.nodes(data=True));
-	if W==None:
+	if W==0:
 		for cycle in gen_dict[0]:
 			if float(cycle.end)>float(W):
 				W=float(cycle.end);

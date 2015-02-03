@@ -21,6 +21,7 @@ if len(sys.argv)>=4:
 	dir=str(sys.argv[3]);
 	stringie=str(sys.argv[4]);
 	javaplex_path=str(sys.argv[5]);
+	save_generators = bool(sys.argv[6])
 else:
 	print('This code needs as input:');
 	print('1) full filtration file name');
@@ -98,6 +99,10 @@ import string
 for h in range(dimension+1):
 	Generator_dictionary[h]=[];
 	list_gen=list(annotated_intervals.getGeneratorsAtDimension(h))
+	# if save_generators==True:
+	# 	gen_details_file=open(gendir+'details_generators_'+str(h)+'_'+str(stringie)+'.pck','w');
+	# 	pickle.dump(list_gen,gen_details_file);
+
 	list_intervals=list(annotated_intervals.getIntervalsAtDimension(h))
 	for n,key in enumerate(list_gen):
 		test=str(list_intervals[n]).split(',');

@@ -24,7 +24,10 @@ def weight_label_generators(gen_dict,G,ascending=False):
 			d=int(float(rank_cycle.end));
 			comp=rank_cycle.composition;
 			dim=rank_cycle.dim;
-			weighted_generators[key].append(ho.Cycle(dim,comp,edge_weights[b],edge_weights[d]));
+			if ascending==True:
+				weighted_generators[key].append(ho.Cycle(dim,comp,edge_weights[b],edge_weights[d]));
+			else: 
+				weighted_generators[key].append(ho.Cycle(dim,comp,edge_weights[d],edge_weights[b]));
 
 	return weighted_generators;
 
