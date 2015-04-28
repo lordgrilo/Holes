@@ -367,3 +367,69 @@ def duplicated_graph(D, maxweight = 0, weight='weight'):
     return W
 
 
+
+
+def local_standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
+    
+    if IR_weight_cutoff==None:
+        IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight').values());
+
+    print('Preliminary scan of edge weights to define filtration steps...');
+    edge_weights=nx.get_edge_attributes(G,'weight');
+    weight_edge = {}
+    for e,w in edge_weights.items():
+        if w not in weight_edge:
+            weight_edge[w] = []
+        weight_edge[w].append(e);
+
+    edge_weights=list(set(edge_weights.values()));
+    edge_weights=sorted(edge_weights, reverse=True);
+    max_index=len(edge_weights);
+        
+    # Define the clique dictionary
+    Clique_dictionary={};
+    print('Constructing filtration...');
+    #Beginning of filtration construction
+    G_supplementary=nx.Graph();
+
+    #the max index will be used for the persistent homology computation 
+    max_index=0; 
+    current_nodes = []
+    
+    for index,thr in enumerate(edge_weights):
+        new_nodes = [];
+        if thr>=IR_weight_cutoff:
+            G_supplementary.add_edges_from(weight_edge[thr]);
+            [new_nodes.extend(edge) for edge in weight_edge[thr]];
+            new_nodes = list(set(new_nodes));
+
+            ## clique detection in partial graph, where there cliques are found only on the
+            ## new nodes.
+            relevant_nodes = []
+            [relevant_nodes.extend(G_supplementary.neighbors(n)) for n in new_nodes];
+            relevant_nodes = list(set(relevant_nodes));
+            G_supp_supp = nx.subgraph(G_supplementary,relevant_nodes);
+            cliques=nx.find_cliques_recursive(G_supp_supp);
+            # adding cliques to the filtration
+            for clique in cliques: #loop on new clique
+                clique.sort();
+
+                for k in range(1,len(clique)+1): #loop on clique dimension to find missed faces of simplex
+                    for subclique in itertools.combinations(clique,k):
+                        if str(list(subclique)) not in Clique_dictionary:
+                            Clique_dictionary[str(list(subclique))]=[];
+                            Clique_dictionary[str(list(subclique))].append(str(index));
+                            Clique_dictionary[str(list(subclique))].append(str(thr))
+                            max_index=index;
+
+    print('Max filtration value: '+str(max_index));              
+    print('Clique dictionary created.');
+    return Clique_dictionary;
+
+
+
+
+
+
+
+
