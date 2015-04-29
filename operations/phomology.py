@@ -7,7 +7,7 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     import os, sys
     import Holes
     from subprocess import call
-    mem_options='-J-Xms'+str(m1)+'m -J-Xmx'+str(m2)+'m ';  
+    mem_options='JAVA_OPTIONS="-Xms'+str(m1)+'m -Xmx'+str(m2)+'m" ';  
         
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
@@ -24,10 +24,10 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     #file to be called
-    print 'Calling: '+ jython_call+" "+mem_options+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators);
+    print 'Calling: '+ mem_options + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators);
 
     try:
-        retcode = call(jython_call+" "+mem_options+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators), shell=True)
+        retcode = call(mem_options + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators), shell=True)
         if retcode < 0:
             print >>sys.stderr, "Child was terminated by signal", -retcode
         else:
@@ -39,7 +39,7 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
     import os, sys
     import Holes
     from subprocess import call
-    mem_options='-J-Xms'+str(m1)+'m -J-Xmx'+str(m2)+'m ';  
+    mem_options='JAVA_OPTIONS="-Xms'+str(m1)+'m -Xmx'+str(m2)+'m ';
         
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
