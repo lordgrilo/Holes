@@ -15,6 +15,10 @@ from Holes.operations.generators import *
 import Holes.operations.phomology
 from Holes.operations.phomology import * 
 
+import Holes.operations.landmarks
+from Holes.operations.landmarks import * 
+
+
 
 
 
