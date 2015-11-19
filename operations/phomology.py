@@ -8,8 +8,8 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     import Holes
     from subprocess import call
     
-    os.environ["JAVA_OPTIONS"] = "-Xms"+str(m1)+"m -Xmx"+str(m2)+"m"
-    os.environ["JAVA_OPTS"]    = "-Xms"+str(m1)+"m -Xmx"+str(m2)+"m"        
+    os.environ["JAVA_MEM"] = "-Xmx"+str(m2)+"m"
+    os.environ["JAVA_STACK"] = "-Xms"+str(m1)+"m"
     
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
@@ -42,8 +42,8 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
     import Holes
     from subprocess import call
     
-    os.environ["JAVA_OPTIONS"] = "-Xms"+str(m1)+"m -Xmx"+str(m2)+"m"   
-    os.environ["JAVA_OPTS"]    = "-Xms"+str(m1)+"m -Xmx"+str(m2)+"m"         
+    os.environ["JAVA_MEM"] = "-Xmx"+str(m2)+"m"
+    os.environ["JAVA_STACK"] = "-Xms"+str(m1)+"m"
     
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
