@@ -51,7 +51,8 @@ from Holes.measures import *
 import Holes.operations
 from Holes.operations import *
 
-
+import Holes.perseus_utils
+from Holes.perseus_utils import *
 
 
 

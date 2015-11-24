@@ -428,7 +428,50 @@ def local_standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose
 
 
 
+def write_perseus_filtration(fil, output_file, verbose=False):
+    '''
+    Writes a Perseus-friendly file representing the given filtration.
 
+    A non-uniform triangulation in Perseus can be represented as follows:
+    
+        1: this is the number of coordinates per vertex. 
+        2 1 3 5 1: this is the 2D simplex with vertices 1, 3 and 5; the birth time is 1.
+        3 1 2 4 6 2 this is the 3D simplex with vertices 1, 2, 4 and 6; the birth time 2.
+        6 1 2 3 4 5 6 7 4: 6D simplex, vertices 1 through 7. 
+        and so on.
+
+    We use here natural numbers to label simplex vertices and integers for their appearance along 
+    the filtration. 
+    This function is currently designed to work with the output of one of the filtration functions 
+    in this module. 
+    Each entry in a filtration dict is of the form:
+    "[u'v1', u'v2', u'v3', u'v4']": ['birth', 'weight']
+    This will output for each line something of the form:
+    dimesion_of_the_simplex v1 v2 v3 v4 birth 
+
+    Input:
+
+    fil: filtration dictionary
+    output_file: name of output file
+
+    Output: 
+    guess..
+    '''
+
+    f = open(output_file,'w');
+    f.write('1\n');
+
+    for key in fil:
+        k = eval(key);
+        t = [];
+        t.append(str(len(k)-1));
+        t.extend(map(str,k));
+        t.append(str(int(fil[key][0])+1)+'\n');
+        if verbose==True:
+            print t, ' '.join(t); 
+        f.write(' '.join(t));
+    f.close();
+    return;
 
 
 

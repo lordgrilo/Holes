@@ -74,7 +74,7 @@ def barcode_creator(cycles,W=None,sizea=10,sizeb=10,verbose=False):
 
 
 
-def complete_persistence_diagram(gen_list,W=None,normalized=True,factor_l=20,factor_p=1,show=False):
+def complete_persistence_diagram(gen_list,W=None,normalized=True,factor_l=20.0,factor_p=1.0,show=False):
 	import matplotlib.pyplot as plt;
 	b=[];
 	d=[];
@@ -90,52 +90,30 @@ def complete_persistence_diagram(gen_list,W=None,normalized=True,factor_l=20,fac
 		for cycle in gen_list:
 			b.append(float(cycle.start)/float(W));
 			d.append(float(cycle.end)/float(W));
-			l.append(float(len(cycle.composition))*factor_l);
+			if len(cycle.composition)>0:
+				l.append(float(len(cycle.composition))*factor_l);
+			else:
+				l.append(4.0*factor_l);
 			p.append(float(cycle.persistence_interval())/float(W)*factor_p);	
 	else:
 		for cycle in gen_list:
 			b.append(float(cycle.start));
 			d.append(float(cycle.end));
-			l.append(float(len(cycle.composition))*factor_l);
+			if len(cycle.composition)>0:
+				l.append(float(len(cycle.composition))*factor_l);
+			else:
+				l.append(4.0*factor_l);
 			p.append(float(cycle.persistence_interval())*factor_p);	
-
 	plt.scatter(b,d,l,p);
-	plt.xlim(0,1.1*max(max(b),max(d)));
-	plt.ylim(0,1.1*max(max(b),max(d)));
+	plt.xlim(0,1.1*np.max([np.max(b),np.max(d)]));
+	plt.ylim(0,1.1*np.max([np.max(b),np.max(d)]));
 	plt.xlabel('Birth');
 	plt.ylabel('Death');
 	plt.colorbar();
+	plt.tight_layout();
 	if show==True:
 		plt.show();
-
-# def weighted_persistence_diagram(gen_list,W,factor_l=20,factor_p=1,show=False):
-# 	import matplotlib.pyplot as plt;
-# 	b=[];
-# 	d=[];
-# 	l=[];
-# 	p=[];
-# 	if W==None:
-# 		W=0;
-# 		for cycle in gen_list:
-# 			if float(cycle.end)>W:
-# 				W=float(cycle.end);
-# 	for cycle in gen_list:
-# 		b.append(float(cycle.start)/float(W));
-# 		d.append(float(cycle.end)/float(W));
-# 		l.append(float(len(cycle.composition))*factor_l);
-# 		p.append(float(cycle.persistence_interval())/float(W)*factor_p);	
-# 	jj=np.array(zip(b,d));
-# 	ind=np.lexsort((jj[:,1],jj[:,0]));    	
-# 	#plt.scatter(np.array(b)[ind],np.array(d)[ind],np.array(l)[ind],np.array(p)[ind]);
-# 	plt.scatter(np.array(b),np.array(d),np.array(l),np.array(p));
-# 	plt.xlim(0,1.1*max(max(b),max(d)));
-# 	plt.ylim(0,1.1*max(max(b),max(d)));
-# 	plt.xlabel('Birth');
-# 	plt.ylabel('Death');
-# 	plt.colorbar();
-# 	if show==True:
-# 		plt.show();
-
+	return;
 
 
 	
