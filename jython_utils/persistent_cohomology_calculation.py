@@ -38,7 +38,7 @@ Clique_dictionary=pickle.load(file);
 
 ## NOTE: you need to put here the path to the javaPlex distribution on your system
 libs = [                                                                                                 
-	 javaplex_path+'/javaplex.jar'
+	 os.path.join(javaplex_path,'javaplex.jar')
  	]                    
 print libs                                                  
 
@@ -107,7 +107,7 @@ print 'while the annotated intervals are: \n', annotated_cointervals;
 # models.. 
 
 
-gendir=dir+'gen/'
+gendir=dir+'gen'
 if not os.path.exists(gendir):
     os.makedirs(gendir)
 
