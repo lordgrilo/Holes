@@ -13,13 +13,13 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
-        script = diodir+'/jython_utils/persistent_homology_calculation.py';
+        script = os.path.join(diodir,'jython_utils','persistent_homology_calculation.py');
     else:
-        script = script_dir + '/jython_utils/persistent_homology_calculation.py';
+        script = os.path.join(script_dir,'jython_utils','persistent_homology_calculation.py');
     
     if javaplex_directory==None:
             diodir =   os.path.dirname(Holes.__file__)
-            javaplex_directory = diodir+'/jython_utils/lib/';
+            javaplex_directory = os.path.join(diodir,'jython_utils','lib');
     
     #here goes the modified jython script
 
@@ -47,13 +47,13 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
     
     if script_dir==None:
         diodir = os.path.dirname(Holes.__file__)
-        script = diodir+'/jython_utils/persistent_cohomology_calculation.py';
+        script = os.path.join(diodir,'jython_utils','persistent_cohomology_calculation.py');
     else:
-        script = script_dir + '/jython_utils/persistent_cohomology_calculation.py';
+        script = os.path.join(script_dir,'jython_utils','persistent_cohomology_calculation.py');
     
     if javaplex_directory==None:
             diodir =   os.path.dirname(Holes.__file__)
-            javaplex_directory = diodir+'/jython_utils/lib/';
+            javaplex_directory = os.path.join(diodir,'jython_utils','lib');
     
     #here goes the modified jython script
 

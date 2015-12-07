@@ -37,7 +37,7 @@ Clique_dictionary=pickle.load(file);
 
 ## NOTE: you need to put here the path to the javaPlex distribution on your system
 libs = [                                                                                                 
-	 javaplex_path+'/javaplex.jar'
+	 os.path.join(javaplex_path,'javaplex.jar')
  	]                    
 print libs                                                  
 
@@ -89,7 +89,7 @@ print 'while the annotated intervals are: \n', annotated_intervals;
 # models.. 
 
 
-gendir=dir+'gen/'
+gendir=dir+'gen'
 if not os.path.exists(gendir):
     os.makedirs(gendir)
 
@@ -120,9 +120,10 @@ for h in range(dimension+1):
 	for cycle in Generator_dictionary[h]:
 		cycle.summary();
 
-generator_dict_file=open(gendir+'generators_'+str(stringie)+'.pck','w');
+filename=os.path.join(gendir,'generators_'+str(stringie)+'.pck')
+generator_dict_file=open(filename,'w');
 pickle.dump(Generator_dictionary,generator_dict_file);
-print 'Generator dictionary dumped to '+ gendir+'generators_'+str(stringie)+'.pck',
+print 'Generator dictionary dumped to '+filename,
 generator_dict_file.close();
 
 
