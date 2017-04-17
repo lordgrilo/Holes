@@ -31,7 +31,17 @@ def weight_label_generators(gen_dict,G,ascending=False):
 
 	return weighted_generators;
 
-
+def running_betti_number(gen,dim,base_vector,invert=False):
+    counts = np.zeros_like(base_vector);
+    for g in gen[dim]:
+        if invert==False:
+            v = (base_vector>float(g.start)) & (base_vector<float(g.end));
+        else:
+            v = (base_vector<float(g.start)) & (base_vector>float(g.end));
+        v = v.astype(int);
+        counts+=v;
+    return counts;
+    
 
 
 

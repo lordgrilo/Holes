@@ -464,9 +464,14 @@ def write_perseus_filtration(fil, output_file, verbose=False):
     for key in fil:
         k = eval(key);
         t = [];
-        t.append(str(len(k)-1));
-        t.extend(map(str,k));
-        t.append(str(int(fil[key][0])+1)+'\n');
+        if len(key)>1:
+            t.append(str(len(k)-1));
+            t.extend(map(str,k));
+            t.append(str(int(fil[key][0])+1)+'\n');
+        else:
+            t.append(0);
+            t.extend(map(str,k));
+            t.append(str(int(fil[key][0])+1)+'\n');
         if verbose==True:
             print t, ' '.join(t); 
         f.write(' '.join(t));
