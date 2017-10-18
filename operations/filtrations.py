@@ -175,8 +175,8 @@ def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weigh
     print('Constructing filtration...');
     #Beginning of filtration construction
     for n in G.nodes():
-        Clique_dictionary[str(n)]=[];
-        Clique_dictionary[str(n)].append(str(0));
+        Clique_dictionary[str([n])]=[];
+        Clique_dictionary[str([n])].append(str(0));
     for k in range(2,max_homology_dimension+3):
         print 'Scanning cliques of dimension: ',k;
         for clique in itertools.combinations(G.nodes(),k):
