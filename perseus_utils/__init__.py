@@ -60,7 +60,7 @@ def write_perseus_filtration(fil, output_file, verbose=False):
         t.extend(map(str,k));
         t.append(str(int(fil[key][0])+1)+'\n');
         if verbose==True:
-            print t, ' '.join(t); 
+            print(t, ' '.join(t)); 
         f.write(' '.join(t));
     f.close();
     return;
@@ -115,7 +115,7 @@ def calculate_perseus_intervals(input_file, output_directory, tmp_output='raw_ou
         if sys.platform in ['win32', 'cygwin']:
             perseus_path = diodir + 'perseus_utils/bin/perseusWin.exe ';
         if perseus_path == None:
-            print 'Unsupported operating system. Cannot calculate persistent homology with Perseus.'
+            print('Unsupported operating system. Cannot calculate persistent homology with Perseus.')
             return;
     call([perseus_path, mode, input_file, output_directory+tmp_output+'output']);
 

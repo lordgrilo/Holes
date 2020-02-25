@@ -26,7 +26,7 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     #file to be called
-    print 'Calling: ' + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators);
+    print('Calling: ' + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators));
 
     try:
         retcode = call(jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators), shell=True)
@@ -34,7 +34,7 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
             print >>sys.stderr, "Child was terminated by signal", -retcode
         else:
             print >>sys.stderr, "Child returned", -retcode
-    except OSError, e:
+    except OSError as e:
         print >>sys.stderr, "Execution failed:", e
 
 def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimension,dataset_tag, output_dir,jython_call="jython ", script_dir=None, m1=2048,m2=2048,javaplex_directory=None):
@@ -60,7 +60,7 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     #file to be called
-    print 'Calling: ' + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory;
+    print('Calling: ' + jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory);
 
     try:
         retcode = call(jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory, shell=True)
@@ -68,5 +68,5 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
             print >>sys.stderr, "Child was terminated by signal", -retcode
         else:
             print >>sys.stderr, "Child returned", -retcode
-    except OSError, e:
+    except OSError as e:
         print >>sys.stderr, "Execution failed:", e

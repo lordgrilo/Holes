@@ -20,9 +20,9 @@ class Cycle(object):
 		return float(self.end)-float(self.start);
 	
 	def summary(self):
-		print 'Homology group=',str(self.dim);
-		print 'Starting at '+str(self.start)+' and ending at '+str(self.end) ;
-		print 'Composed by:'
+		print('Homology group=',str(self.dim));
+		print('Starting at '+str(self.start)+' and ending at '+str(self.end));
+		print('Composed by:')
 		for deh in self.composition:
 			print(' '+str(deh) );
 	

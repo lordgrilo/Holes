@@ -120,7 +120,7 @@ def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
 
     for index,thr in enumerate(edge_weights):
         if verbose==True:
-            print index, thr;
+            print(index, thr);
         if thr<=UV_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
@@ -178,7 +178,7 @@ def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weigh
         Clique_dictionary[str([n])]=[];
         Clique_dictionary[str([n])].append(str(0));
     for k in range(2,max_homology_dimension+3):
-        print 'Scanning cliques of dimension: ',k;
+        print('Scanning cliques of dimension: ',k);
         for clique in itertools.combinations(G.nodes(),k):
             w=[];
             valid_clique=1;
@@ -205,7 +205,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
     
     if UV_weight_cutoff==None:
         UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G0,'weight').values()));
-        print 'Uv cut', UV_weight_cutoff
+        print('Uv cut', UV_weight_cutoff)
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G0,'weight').values();
     edge_weights=list(set(edge_weights));
@@ -228,7 +228,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
         Clique_dictionary[str(n)]=[];
         Clique_dictionary[str(n)].append(str(0));
     for k in range(2,max_homology_dimension+3):
-        print 'Scanning cliques of dimension: ',k;
+        print('Scanning cliques of dimension: ',k);
         for clique in itertools.combinations(G.nodes(),k):
             w=[];
             valid_clique=1;
@@ -351,7 +351,7 @@ def duplicated_graph(D, maxweight = 0, weight='weight'):
                 c=10000
                 u_v=10000+u
             else:
-                print "Problemi col nome dei nodi per eliminare i self loop (specification construction)"
+                print("Problemi col nome dei nodi per eliminare i self loop (specification construction)")
             G.add_edge(u,u_v,p)
             #print (u,u_v,p)
             v2=v+N
@@ -473,7 +473,7 @@ def write_perseus_filtration(fil, output_file, verbose=False):
             t.extend(map(str,k));
             t.append(str(int(fil[key][0])+1)+'\n');
         if verbose==True:
-            print t, ' '.join(t); 
+            print(t, ' '.join(t)); 
         f.write(' '.join(t));
     f.close();
     return;
