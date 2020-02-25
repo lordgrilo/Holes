@@ -5,13 +5,13 @@ import numpy as np;
 import networkx as nx;
 import itertools
 
-def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
+def standard_weight_clique_rank_filtration(G,weight='weight',IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-    	IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,'weight').values()));
+    	IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,weight).values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
-    edge_weights=nx.get_edge_attributes(G,'weight').values();
+    edge_weights=nx.get_edge_attributes(G,weight).values();
     edge_weights=list(set(edge_weights));
     edge_weights=sorted(edge_weights, reverse=True);
     max_index=len(edge_weights);
@@ -29,7 +29,7 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False
         if thr>=IR_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
-                if edge[2]['weight']>=thr:
+                if edge[2][weight]>=thr:
                 	G_supplementary.add_edge(edge[0],edge[1]);
             
             #clique detection in partial graph
@@ -51,13 +51,13 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False
     return Clique_dictionary;
 
 
-def limited_weight_clique_rank_filtration(G,max_clique_dim,IR_weight_cutoff=None,verbose=False):
+def limited_weight_clique_rank_filtration(G,max_clique_dim,weight='weight',IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-        IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,'weight').values()));
+        IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,weight).values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
-    edge_weights=nx.get_edge_attributes(G,'weight').values();
+    edge_weights=nx.get_edge_attributes(G,weight).values();
     edge_weights=list(set(edge_weights));
     edge_weights=sorted(edge_weights, reverse=True);
     max_index=len(edge_weights);
@@ -75,7 +75,7 @@ def limited_weight_clique_rank_filtration(G,max_clique_dim,IR_weight_cutoff=None
         if thr>=IR_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
-                if edge[2]['weight']>=thr:
+                if edge[2][weight]>=thr:
                     G_supplementary.add_edge(edge[0],edge[1]);
             
             #clique detection in partial graph
@@ -99,12 +99,12 @@ def limited_weight_clique_rank_filtration(G,max_clique_dim,IR_weight_cutoff=None
 
 
 
-def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
+def upward_weight_clique_rank_filtration(G,weight='weight',UV_weight_cutoff=None,verbose=False):
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G,'weight').values()));
+        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G,weight).values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
-    edge_weights=nx.get_edge_attributes(G,'weight').values();
+    edge_weights=nx.get_edge_attributes(G,weight).values();
     edge_weights=list(set(edge_weights));
     edge_weights=sorted(edge_weights);
     max_index=len(edge_weights);
@@ -124,7 +124,7 @@ def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
         if thr<=UV_weight_cutoff:
             #print "Index: "+str(index)+". IR_weight_cutoffeshold: "+str(IR_weight_cutoff);
             for edge in G.edges(data=True):
-                if edge[2]['weight']<=thr:
+                if edge[2][weight]<=thr:
                     G_supplementary.add_edge(edge[0],edge[1]);
             #clique detection in partial graph
             cliques=nx.find_cliques_recursive(G_supplementary);
@@ -149,17 +149,17 @@ def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
 
 
 
-def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weight_cutoff=None):   
+def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,weight='weight',IR_weight_cutoff=None):   
     G=nx.Graph();
     G.add_nodes_from(G0.nodes(data=True));
     G.add_edges_from(G0.edges());
     
     if IR_weight_cutoff==None:
-        IR_weight_cutoff=np.min(np.array(nx.get_edge_attributes(G0,'weight').values()));
+        IR_weight_cutoff=np.min(np.array(nx.get_edge_attributes(G0,weight).values()));
     
     #preliminary scan of edge weights to define filtration steps
     print('Preliminary scan of edge weights to define filtration steps...');
-    edge_weights=nx.get_edge_attributes(G0,'weight').values();
+    edge_weights=nx.get_edge_attributes(G0,weight).values();
     edge_weights=list(set(edge_weights));
     edge_weights=sorted(edge_weights, reverse=True);
     max_rank=len(edge_weights);
@@ -168,8 +168,8 @@ def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weigh
     #Relabel edge weights with respective rank
     edge_weight_dict=dict.fromkeys(G.edges());
     for edge in G.edges():
-        edge_weight_dict[edge]=edge_weights.index(G0[edge[0]][edge[1]]['weight']);
-    nx.set_edge_attributes(G,'weight',edge_weight_dict);
+        edge_weight_dict[edge]=edge_weights.index(G0[edge[0]][edge[1]][weight]);
+    nx.set_edge_attributes(G,weight,edge_weight_dict);
     #Define the clique dictionary
     Clique_dictionary={};
     print('Constructing filtration...');
@@ -184,7 +184,7 @@ def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weigh
             valid_clique=1;
             for link in itertools.combinations(clique,2):
                 if G.has_edge(link[0],link[1]):
-                    w.append(G[link[0]][link[1]]['weight']);
+                    w.append(G[link[0]][link[1]][weight]);
                 else:
                     valid_clique=0;
                     break;
@@ -197,17 +197,17 @@ def dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,IR_weigh
 
 
 
-def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,UV_weight_cutoff=None):   
+def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,weight='weight',UV_weight_cutoff=None):   
 
     G=nx.Graph();
     G.add_nodes_from(G0.nodes(data=True));
     G.add_edges_from(G0.edges());
     
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G0,'weight').values()));
+        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G0,weight).values()));
         print('Uv cut', UV_weight_cutoff)
     print('Preliminary scan of edge weights to define filtration steps...');
-    edge_weights=nx.get_edge_attributes(G0,'weight').values();
+    edge_weights=nx.get_edge_attributes(G0,weight).values();
     edge_weights=list(set(edge_weights));
     edge_weights=sorted(edge_weights);
     max_index=len(edge_weights);
@@ -216,8 +216,8 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
     #Relabel edge weights with respective rank
     edge_weight_dict=dict.fromkeys(G.edges());
     for edge in G.edges():
-        edge_weight_dict[edge]=edge_weights.index(G0[edge[0]][edge[1]]['weight']);
-    nx.set_edge_attributes(G,'weight',edge_weight_dict);
+        edge_weight_dict[edge]=edge_weights.index(G0[edge[0]][edge[1]][weight]);
+    nx.set_edge_attributes(G,weight,edge_weight_dict);
     
     #Define the clique dictionary
     Clique_dictionary={};
@@ -234,7 +234,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
             valid_clique=1;
             for link in itertools.combinations(clique,2):
                 if G.has_edge(link[0],link[1]):
-                    w.append(G[link[0]][link[1]]['weight']);
+                    w.append(G[link[0]][link[1]][weight]);
                 else:
                     valid_clique=0;
                     break;
@@ -246,7 +246,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
 
 
 
-def metrical_filtration(distance_graph, max_dim=None):
+def metrical_filtration(distance_graph, weight='weight',max_dim=None):
     '''
     A metrical filtration is just a normal ascending filtration on a distance graph
     obtained from the original graph
@@ -258,14 +258,14 @@ def metrical_filtration(distance_graph, max_dim=None):
             - filtration 
     '''
     if max_dim==None:
-        clique_dict=upward_dense_graph_weight_clique_rank_filtration(distance_graph,max_dim=distance_graph.number_of_nodes());
+        clique_dict=upward_dense_graph_weight_clique_rank_filtration(distance_graph,max_dim=distance_graph.number_of_nodes(),weight=weight);
     else:
-        clique_dict=upward_dense_graph_weight_clique_rank_filtration(distance_graph,max_dim);
+        clique_dict=upward_dense_graph_weight_clique_rank_filtration(distance_graph,max_dim,weight=weight);
 
     return clique_dict;
     
     
-def distance_graph(G,metric='shortest_path_inverse'):
+def distance_graph(G,weight='weight',metric='shortest_path_inverse'):
     '''
     Supported distances:
      - shortest_path_inverse : shortest path calculated on inverted weight (a strong link means the two nodes are close)
@@ -276,22 +276,22 @@ def distance_graph(G,metric='shortest_path_inverse'):
         G_suppl=nx.Graph();
         G_suppl.add_nodes_from(G.nodes(data=True));
         for e in G.edges(data=True):
-            if 'weight' in e[2]:
-                G_suppl.add_edge(e[0],e[1],weight=float(1/e[2]['weight']));
+            if weight in e[2]:
+                G_suppl.add_edge(e[0],e[1],weight=float(1/e[2][weight]));
             else:
                 G_suppl.add_edge(e[0],e[1],weight=float(1));
-        distance_dict=nx.shortest_path_length(G_suppl,weight='weight');
+        distance_dict=nx.shortest_path_length(G_suppl,weight=weight);
         del G_suppl;
 
     if metric=='shortest_path':
         G_suppl=nx.Graph();
         G_suppl.add_nodes_from(G.nodes(data=True));
         for e in G.edges(data=True):
-            if 'weight' in e[2]:
-                G_suppl.add_edge(e[0],e[1],weight=float(e[2]['weight']));
+            if weight in e[2]:
+                G_suppl.add_edge(e[0],e[1],weight=float(e[2][weight]));
             else:
                 G_suppl.add_edge(e[0],e[1],weight=float(1));
-        distance_dict=nx.shortest_path_length(G_suppl,weight='weight');
+        distance_dict=nx.shortest_path_length(G_suppl,weight=weight);
         del G_suppl;
 
     distance_graph=nx.Graph();

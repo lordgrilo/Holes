@@ -31,11 +31,11 @@ def persistent_homology_calculation(clique_dictionary_file,max_homology_dimensio
     try:
         retcode = call(jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory+' '+str(save_generators), shell=True)
         if retcode < 0:
-            print >>sys.stderr, "Child was terminated by signal", -retcode
+            print("Child was terminated by signal", -retcode, file=sys.stderr)
         else:
-            print >>sys.stderr, "Child returned", -retcode
+            print("Child returned", -retcode, file=sys.stderr)
     except OSError as e:
-        print >>sys.stderr, "Execution failed:", e
+        print("Execution failed:", e, file=sys.stderr)
 
 def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimension,dataset_tag, output_dir,jython_call="jython ", script_dir=None, m1=2048,m2=2048,javaplex_directory=None):
     import os, sys
@@ -65,8 +65,8 @@ def persistent_cohomology_calculation(clique_dictionary_file,max_homology_dimens
     try:
         retcode = call(jython_call+" "+script+" "+clique_dictionary_file+' '+str(max_homology_dimension)+" "+output_dir+" "+dataset_tag+"_ "+javaplex_directory, shell=True)
         if retcode < 0:
-            print >>sys.stderr, "Child was terminated by signal", -retcode
+            print("Child was terminated by signal", -retcode, file=sys.stderr)
         else:
-            print >>sys.stderr, "Child returned", -retcode
+            print("Child returned", -retcode, file=sys.stderr)
     except OSError as e:
-        print >>sys.stderr, "Execution failed:", e
+        print("Execution failed:", e, file=sys.stderr)

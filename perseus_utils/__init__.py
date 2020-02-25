@@ -117,7 +117,7 @@ def calculate_perseus_intervals(input_file, output_directory, tmp_output='raw_ou
         if perseus_path == None:
             print('Unsupported operating system. Cannot calculate persistent homology with Perseus.')
             return;
-    call([perseus_path, mode, input_file, output_directory+tmp_output+'output']);
+    call([perseus_path, mode, input_file, output_directory+tmp_output+'output'], shell=True);
 
     # generator dict creation
     gen = {};
@@ -146,10 +146,10 @@ def calculate_perseus_intervals(input_file, output_directory, tmp_output='raw_ou
         import pickle as pk;
 
     if name_tag == None:
-        outfile = open(output_directory+'/generators_' + str(len(l)-2) + '.pck','w');
+        outfile = open(output_directory+'/generators_' + str(len(l)-2) + '.pck','wb');
         pk.dump(gen, outfile);
     else:
-        outfile = open(output_directory+'/generators_' + name_tag + '_' + str(len(l)-2) + '.pck','w');
+        outfile = open(output_directory+'/generators_' + name_tag + '_' + str(len(l)-2) + '.pck','wb');
         pk.dump(gen, outfile);
     outfile.close();
 
