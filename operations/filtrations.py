@@ -8,7 +8,7 @@ import itertools
 def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-    	IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight').values());
+    	IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,'weight').values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight').values();
@@ -54,7 +54,7 @@ def standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False
 def limited_weight_clique_rank_filtration(G,max_clique_dim,IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-        IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight').values());
+        IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,'weight').values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight').values();
@@ -101,7 +101,7 @@ def limited_weight_clique_rank_filtration(G,max_clique_dim,IR_weight_cutoff=None
 
 def upward_weight_clique_rank_filtration(G,UV_weight_cutoff=None,verbose=False):
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(nx.get_edge_attributes(G,'weight').values());
+        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G,'weight').values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight').values();
@@ -204,7 +204,7 @@ def upward_dense_graph_weight_clique_rank_filtration(G0,max_homology_dimension,U
     G.add_edges_from(G0.edges());
     
     if UV_weight_cutoff==None:
-        UV_weight_cutoff=np.max(nx.get_edge_attributes(G0,'weight').values());
+        UV_weight_cutoff=np.max(list(nx.get_edge_attributes(G0,'weight').values()));
         print 'Uv cut', UV_weight_cutoff
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G0,'weight').values();
@@ -372,7 +372,7 @@ def duplicated_graph(D, maxweight = 0, weight='weight'):
 def local_standard_weight_clique_rank_filtration(G,IR_weight_cutoff=None,verbose=False):
     
     if IR_weight_cutoff==None:
-        IR_weight_cutoff=np.min(nx.get_edge_attributes(G,'weight').values());
+        IR_weight_cutoff=np.min(list(nx.get_edge_attributes(G,'weight').values()));
 
     print('Preliminary scan of edge weights to define filtration steps...');
     edge_weights=nx.get_edge_attributes(G,'weight');
