@@ -13,7 +13,7 @@ def cycle_persistence_distribution(Gen_dict,W=None,tag=' ',nbins=100):
 	import matplotlib.pyplot as plt
 	persistence=[];
 	if W==None:
-		W=0;
+		W=0;p
 		for cycle in Gen_dict:
 			if float(cycle.end)>float(W):
 				W=cycle.end;
@@ -65,7 +65,7 @@ def barcode_creator(cycles,W=None,sizea=10,sizeb=10,verbose=False):
 			if float(cycle.end)>float(W):
 				W=float(cycle.end);
 	if verbose==True:
-		print 'Maximum W=',W;
+		print('Maximum W=',W);
 	fig=plt.figure(figsize=(sizea,sizeb));
 	L=len(cycles);
 	factor=np.sqrt(L);
